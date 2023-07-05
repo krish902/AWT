@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Social Media Signup</title>
+  <style>
+    label {
+      display: block;
+      margin-bottom: 10px;
+    }
+    
+    input[type="submit"] {
+      margin-top: 20px;
+    }
+    
+    .error-message {
+      color: red;
+    }
+  </style>
+</head>
+<body>
+  <h1>Social Media Signup</h1>
+  <form id="signupForm" method="post" action="login.html">
+    <label>
+      Full Name:
+      <input type="text" id="fullName" name="full_name" required>
+      <span id="fullNameError" class="error-message"></span>
+    </label>
+    <label>
+      Username:
+      <input type="text" id="username" name="username" pattern="[A-Za-z0-9]+" required>
+      <span id="usernameError" class="error-message"></span>
+    </label>
+    <label>
+      Password:
+      <!-- ^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&]) -->
+      <input type="password" id="password" name="password" pattern="[A-Za-z\d@$!%.*#?&]{6,10}$" required>
+      <span id="passwordError" class="error-message"></span>
+    </label>
+    <label>
+      Confirm Password:
+      <input type="password" id="confirmPassword" name="confirm_password" required>
+      <span id="confirmPasswordError" class="error-message"></span>
+    </label>
+    <label>
+      Gender:
+      <input type="radio" name="gender" value="male" required> Male
+      <input type="radio" name="gender" value="female" required> Female
+      <span id="genderError" class="error-message"></span>
+    </label>
+    <label>
+      Phone No:
+      <input type="tel" id="phone" name="phone" pattern="[0-9]{10}" required>
+      <span id="phoneError" class="error-message"></span>
+    </label>
+    <label>
+      Email:
+      <input type="email" id="email" name="email" required>
+      <span id="emailError" class="error-message"></span>
+    </label>
+    <label>
+      State:
+      <select id="state" name="state" required>
+        <option value="">-- Select State --</option>
+        <option value="state1">Gujarat</option>
+        <option value="state2">Mumbai</option>
+        <option value="state3">Himachal</option>
+      </select>
+      <span id="stateError" class="error-message"></span>
+    </label>
+    <label>
+      <input type="checkbox" id="agreement" name="agreement" required> I agree to the terms and conditions
+      <span id="agreementError" class="error-message"></span>
+    </label>
+    <input type="submit" value="Register">
+  </form>
+
+  <script>
+    document.getElementById('signupForm').addEventListener('submit', function(event) {
+      event.preventDefault(); 
+  
+      var errorElements = document.getElementsByClassName('error-message');
+      for (var i = 0; i < errorElements.length; i++) {
+        errorElements[i].textContent = '';
+      }
+  
+      var fullName = document.getElementById('fullName').value;
+      var username = document.getElementById('username').value;
+      var password = document.getElementById('password').value;
+      var confirmPassword = document.getElementById('confirmPassword').value;
+      var gender = document.querySelector('input[name="gender"]:checked');
+      var phone = document.getElementById('phone').value;
+      var email = document.getElementById('email').value;
+      var state = document.getElementById('state').value;
+      var agreement = document.getElementById('agreement').checked;
+
+      var isValid = true;
+  
+      if (!fullName.match(/^[a-zA-Z ]+$/)) {
+        document.getElementById('fullNameError').textContent = '* Please enter a valid full name.';
+        isValid = false;
+      }
+  
+      if (!username.match(/^[a-zA-Z0-9]+$/)) {
+        document.getElementById('usernameError').textContent = '* Please enter a valid username (alphanumeric only).';
+        isValid = false;
+      }
+  
+      if (!password.match(/^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{6,10}$/)) {
+        document.getElementById('passwordError').textContent = '* Password must be alphanumeric with at least one special symbol (@$!%.*#?&) and have a length of 6 to 10 characters.';
+        isValid = false;
+      }
+  
+      if (password !== confirmPassword) {
+        document.getElementById('confirmPasswordError').textContent = '* Passwords do not match.';
+        isValid = false;
+      }
+  
+      if (!gender) {
+        document.getElementById('genderError').textContent = '* Please select a gender.';
+        isValid = false;
+      }
+  
+      if (!phone.match(/^\d{10}$/)) {
+        document.getElementById('phoneError').textContent = '* Please enter a valid 10-digit phone number.';
+        isValid = false;
+      }
+  
+      if (!email.match(/^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$/)) {
+        document.getElementById('emailError').textContent = '* Please enter a valid email address.';
+        isValid = false;
+      }
+  
+      if (state === '') {
+        document.getElementById('stateError').textContent = '* Please select a state.';
+        isValid = false;
+      }
+  
+      if (!agreement) {
+        document.getElementById('agreementError').textContent = '* You must agree to the terms and conditions.';
+        isValid = false;
+      }
+ 
+      if (isValid) {
+        window.location.href = 'login.html';
+      }
+    });
+  </script>
+  
